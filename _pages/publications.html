@@ -3,25 +3,201 @@ layout: archive
 title: "Publications"
 permalink: /publications/
 author_profile: true
-description: "Research publications and ongoing projects by Xiaocong Yang, covering AI interpretability, modularity, and symbolic systems."
-keywords: "AI publications, interpretability research, Xiaocong Yang"
+description: "Selected paper highlights and the full publication list of Xiaocong Yang, covering AI interpretability, Transformer architecture, sparse autoencoders, and efficient LLM inference."
+keywords: "AI publications, interpretability research, DAGFormer, SAE-IDF, Xiaocong Yang"
 ---
 
 {% include base_path %}
 
-<h2>Ongoing Projects</h2><hr />
+<p class="pub-intro">Selected papers, each with its main figure. The figures for DAGFormer and SAE-IDF are interactive and plot the real numbers behind the paper's Figure 1. The <a href="#all-publications">full list</a> is below.</p>
 
-<iframe
-  src="https://docs.google.com/document/d/1bpEsZ8xkTkpfWwlYeknMKabpHCTra5t7u5fmQixpxr0/preview"
-  style="border:0;width:100%;min-height:720px;"
-  frameborder="0"
-  title="Ongoing Projects"
-></iframe>
+<h2 class="pub-section">Selected Highlights</h2>
 
-<h2>Past Publications</h2>
-<div class="wordwrap">
-  <p>For a complete list of my past publications, please visit <a href="{{site.author.googlescholar}}" target="_blank">my Google Scholar profile</a>.</p>
-</div>
+<!-- ============================ DAGFormer ============================ -->
+<article class="pub-hl" id="dagformer">
+  <p class="pub-hl__label">In review · ARR · 2026</p>
+  <h3 class="pub-hl__title"><span class="pub-hl__name">DAGFormer</span>: Global Topology Prediction for Transformer Cross-Layer Connections</h3>
+  <p class="pub-hl__authors"><b>Xiaocong Yang</b><sup>*</sup>, Yuren Hao<sup>*</sup>, ChengXiang Zhai <span class="pub-hl__note">· <sup>*</sup>Equal contribution</span></p>
+  <p class="pub-hl__dek">A small causal Transformer reads the input tokens and plans every cross-layer connection of the backbone at once: what each attention head's query, key and value, and each layer's residual input, reads from the embedding and all earlier layers.</p>
+  <div class="pub-hl__links">
+    <a class="talk-card__pill" href="https://arxiv.org/abs/2610.19625" target="_blank" rel="noopener"><i class="fas fa-file-pdf" aria-hidden="true"></i> Paper</a>
+    <a class="talk-card__pill" href="https://github.com/AI-Interpretability-Illinois/Dagformer" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i> Code</a>
+    <a class="talk-card__pill" href="https://interpretability.web.illinois.edu/wp-content/uploads/2026/10/DAGFormer.html" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square" aria-hidden="true"></i> Interactive paper page</a>
+    <button type="button" class="talk-card__pill pub-cite-toggle" aria-expanded="false" aria-controls="cite-dagformer"><i class="fas fa-quote-right" aria-hidden="true"></i> Cite</button>
+  </div>
+  <div class="pub-cite" id="cite-dagformer" hidden>
+    <button type="button" class="pub-cite__copy" data-copy="bib-dagformer">Copy</button>
+<pre id="bib-dagformer">{% raw %}@article{yang2026dagformer,
+  title   = {{DAGFormer}: Global Topology Prediction for Transformer Cross-Layer Connections},
+  author  = {Yang, Xiaocong and Hao, Yuren and Zhai, ChengXiang},
+  journal = {arXiv preprint arXiv:2610.19625},
+  year    = {2026}
+}{% endraw %}</pre>
+  </div>
 
+  <figure class="pub-fig pub-fig--dag" id="fig-dag">
+    <div class="pub-fig__top">
+      <p class="pub-fig__title">Figure 1 · What each layer reads in a trained DAGFormer</p>
+      <p class="pub-fig__hint">Switch the model, the read and the weights. Hover or tab through a cell.</p>
+    </div>
+    <div class="pub-fig__controls">
+      <div class="pub-ctl"><span class="pub-ctl__label">Model</span>
+        <div class="pub-seg" role="group" aria-label="Model" data-key="model">
+          <button type="button" data-v="0">75M</button><button type="button" data-v="1">300M</button><button type="button" data-v="2" aria-pressed="true">1B</button>
+        </div></div>
+      <div class="pub-ctl"><span class="pub-ctl__label">Read</span>
+        <div class="pub-seg" role="group" aria-label="Read" data-key="stream">
+          <button type="button" data-v="q" aria-pressed="true">Query</button><button type="button" data-v="k">Key</button><button type="button" data-v="v">Value</button><button type="button" data-v="r">Residual</button>
+        </div></div>
+      <div class="pub-ctl"><span class="pub-ctl__label">Weights</span>
+        <div class="pub-seg" role="group" aria-label="Weights" data-key="mode">
+          <button type="button" data-v="vanilla">Vanilla</button><button type="button" data-v="plan">Planned α̂</button><button type="button" data-v="refined" aria-pressed="true">+ refinement</button>
+        </div></div>
+    </div>
+    <div class="pub-dag">
+      <div class="pub-dag__plot" id="dag-plot" aria-describedby="dag-caption"></div>
+      <aside class="pub-dag__side">
+        <div class="pub-dag__legend" aria-hidden="true">
+          <span>−1</span><i class="pub-dag__ramp"></i><span>+1</span>
+        </div>
+        <p class="pub-dag__legend-note">Mean weight α; past ±1 the colour saturates. The outlined diagonal is the previous layer, the only read a vanilla Transformer has.</p>
+        <p class="pub-dag__readout" id="dag-readout" aria-live="polite"></p>
+        <p class="pub-dag__stat" id="dag-stat"></p>
+      </aside>
+    </div>
+    <figcaption id="dag-caption">Each row is a layer of the backbone, each column a source it can read: the embedding X<sub>0</sub> and the outputs of all earlier layers. A cell is the planned weight for the selected read, averaged over attention heads (one row for the residual) and over tokens. <b>Vanilla</b> is DAGFormer at initialization. <b>Planned α̂</b> is the topology predictor's output, averaged over 128 held-out windows of 1,024 tokens; <b>+ refinement</b> adds the local refinement. Layer 1 can read only X<sub>0</sub> and is left out. The 75M model is from the routing-source ablation; the 300M and 1B models are the 10B-token runs from Table 1.</figcaption>
+  </figure>
 
+  <ul class="pub-hl__tldr">
+    <li>On matched OLMo-2 pairs from 75M to 1B parameters, DAGFormer lowers WikiText-2 perplexity by <b>17% to 25%</b>. A 1B DAGFormer trained on 5B tokens beats the vanilla 1B trained on 10B.</li>
+    <li>Lowest perplexity of four routing baselines at 75M, 300M and 1B. The gain carries over to 13 evaluation tasks (+2.0 to +2.5 mean accuracy), to instruction finetuning (63% to 70% AlpacaEval win rate) and to structured pruning.</li>
+    <li>The topology is planned once, from the tokens alone, so the whole graph can be read as one object.</li>
+  </ul>
+</article>
 
+<!-- ============================ SAE-IDF ============================ -->
+<article class="pub-hl" id="sae-idf">
+  <p class="pub-hl__label">In review · ARR · 2026</p>
+  <h3 class="pub-hl__title">Sparse Autoencoders Are a Shared Coordinate System for Symbolic Matching</h3>
+  <p class="pub-hl__authors"><b>Xiaocong Yang</b>, Xuanyu Meng, Yuji Zhang, Jiawei Han, ChengXiang Zhai</p>
+  <p class="pub-hl__dek"><span class="pub-hl__name">SAE-IDF</span> matches symbols across proof assistants, programming languages, table schemas, knowledge graphs and ontologies. It reads each symbol with an LLM, encodes it with a pretrained sparse autoencoder and weights each feature by its rarity. Nothing is trained.</p>
+  <div class="pub-hl__links">
+    <a class="talk-card__pill" href="https://arxiv.org/abs/2610.19636" target="_blank" rel="noopener"><i class="fas fa-file-pdf" aria-hidden="true"></i> Paper</a>
+    <a class="talk-card__pill" href="https://github.com/AI-Interpretability-Illinois/Symbolic-Merge" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i> Code</a>
+    <a class="talk-card__pill" href="https://interpretability.web.illinois.edu/wp-content/uploads/2026/10/SAE-IDF.html" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square" aria-hidden="true"></i> Interactive paper page</a>
+    <button type="button" class="talk-card__pill pub-cite-toggle" aria-expanded="false" aria-controls="cite-saeidf"><i class="fas fa-quote-right" aria-hidden="true"></i> Cite</button>
+  </div>
+  <div class="pub-cite" id="cite-saeidf" hidden>
+    <button type="button" class="pub-cite__copy" data-copy="bib-saeidf">Copy</button>
+<pre id="bib-saeidf">@misc{yang2026sparse,
+  title         = {Sparse Autoencoders Are a Shared Coordinate System for Symbolic Matching},
+  author        = {Yang, Xiaocong and Meng, Xuanyu and Zhang, Yuji and Han, Jiawei and Zhai, ChengXiang},
+  year          = {2026},
+  eprint        = {2610.19636},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2610.19636}
+}</pre>
+  </div>
+
+  <figure class="pub-fig pub-fig--sae" id="fig-sae">
+    <div class="pub-fig__top">
+      <p class="pub-fig__title">Figure 1 · One NELL class matched against all DBpedia classes</p>
+      <p class="pub-fig__hint">Pick a query and compare the three representations.</p>
+    </div>
+    <div class="pub-fig__controls">
+      <div class="pub-ctl pub-ctl--grow"><label class="pub-ctl__label" for="sae-q">Query: NELL class → DBpedia gold</label>
+        <select id="sae-q" class="pub-select"></select></div>
+      <div class="pub-ctl"><span class="pub-ctl__label">Jump to</span>
+        <div class="pub-seg" role="group" aria-label="Jump to a query">
+          <button type="button" id="sae-paper">Paper example</button><button type="button" id="sae-rand">Random query</button>
+        </div></div>
+    </div>
+    <div class="pub-sae" id="sae-cols"></div>
+    <div class="pub-sae__why" id="sae-why"></div>
+    <p class="pub-sae__run" id="sae-run"></p>
+    <figcaption>Common-KG NELL → DBpedia, replayed from the stored run behind the paper's tables: Gemma-2-9B at layer 20, Gemma Scope SAE with 131,072 features, 129 reference pairs, each query ranked against the same 137 DBpedia classes. <b>Dense</b> is the cosine of hidden states; <b>SAE unweighted</b> the cosine of sparse codes; <b>SAE-IDF</b> weights each feature by inverse document frequency over the 266 symbols first. Each column is drawn on its own scale, with the gold class marked. Feature names are Neuronpedia's automatic explanations and play no part in the score.</figcaption>
+  </figure>
+
+  <ul class="pub-hl__tldr">
+    <li>On 12 tasks across 6 kinds of symbolic system, SAE-IDF beats the same model's dense hidden state on every task with Gemma-2-9B and on all but one with Llama-3.1-8B, by up to <b>0.45 MRR</b> (Lean 4 → Metamath).</li>
+    <li>Needs no training and no aligned pairs: the pretrained SAE serves as a coordinate system that different symbolic systems share.</li>
+    <li>Every coordinate is a named feature, so each match splits into a few rare concepts. Without the weighting, features active on more than 1% of the Pile carry 56% to 91% of the cosine; with it, 0% to 6%.</li>
+  </ul>
+</article>
+
+<!-- ============================ CS Drafting ============================ -->
+<article class="pub-hl" id="cs-drafting">
+  <p class="pub-hl__label">NeurIPS 2024</p>
+  <h3 class="pub-hl__title">Cascade Speculative Drafting for Even Faster LLM Inference</h3>
+  <p class="pub-hl__authors">Ziyi Chen, <b>Xiaocong Yang</b>, Jiacheng Lin, Chenkai Sun, Kevin Chen-Chuan Chang, Jie Huang</p>
+  <p class="pub-hl__dek">Speculative decoding lets a small draft model propose tokens that a large target model verifies in parallel. Cascade Speculative Drafting speeds up the drafting itself, by cascading draft models in two directions.</p>
+  <div class="pub-hl__links">
+    <a class="talk-card__pill" href="https://arxiv.org/abs/2312.11462" target="_blank" rel="noopener"><i class="fas fa-file-pdf" aria-hidden="true"></i> Paper</a>
+  </div>
+
+  <figure class="pub-fig pub-fig--csd">
+    <div class="pub-fig__top">
+      <p class="pub-fig__title">Figure 1 · Two cascades of draft models</p>
+    </div>
+    <div class="pub-csd" role="img" aria-label="Diagram. Vertical cascade: the target model is drafted for by draft model 1, which is itself drafted for by a smaller draft model, down to a statistical language model with no neural decoding. Horizontal cascade: in one draft of six tokens, the first tokens come from the largest draft model and later tokens from progressively smaller ones.">
+      <svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <marker id="csd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="csd-arrowhead"/></marker>
+        </defs>
+        <!-- Vertical cascade -->
+        <text x="20" y="26" class="csd-h">Vertical cascade</text>
+        <text x="20" y="44" class="csd-sub">each drafter is sped up by a smaller one</text>
+        <rect x="20" y="62" width="250" height="38" rx="8" class="csd-m csd-m0"/><text x="145" y="86" class="csd-t">Target model</text>
+        <rect x="45" y="118" width="200" height="34" rx="8" class="csd-m csd-m1"/><text x="145" y="140" class="csd-t">Draft model 1</text>
+        <rect x="70" y="170" width="150" height="30" rx="8" class="csd-m csd-m2"/><text x="145" y="190" class="csd-t">Draft model 2</text>
+        <rect x="90" y="218" width="110" height="28" rx="8" class="csd-m csd-m3"/><text x="145" y="237" class="csd-t csd-t--s">Statistical LM</text>
+        <path d="M290 232 C 318 232, 318 81, 278 81" class="csd-up" marker-end="url(#csd-arrow)"/>
+        <text x="324" y="160" class="csd-sub csd-rot" transform="rotate(-90 324 160)">drafts flow up, verified</text>
+        <!-- Horizontal cascade -->
+        <text x="390" y="26" class="csd-h">Horizontal cascade</text>
+        <text x="390" y="44" class="csd-sub">later tokens are drafted by smaller models</text>
+        <text x="390" y="82" class="csd-sub">one draft, positions 1 – 6</text>
+        <g class="csd-row">
+          <rect x="390" y="94" width="52" height="40" rx="6" class="csd-m1"/><text x="416" y="119" class="csd-t">1</text>
+          <rect x="448" y="94" width="52" height="40" rx="6" class="csd-m1"/><text x="474" y="119" class="csd-t">2</text>
+          <rect x="506" y="94" width="52" height="40" rx="6" class="csd-m2"/><text x="532" y="119" class="csd-t">3</text>
+          <rect x="564" y="94" width="52" height="40" rx="6" class="csd-m2"/><text x="590" y="119" class="csd-t">4</text>
+          <rect x="622" y="94" width="52" height="40" rx="6" class="csd-m3"/><text x="648" y="119" class="csd-t">5</text>
+          <rect x="680" y="94" width="52" height="40" rx="6" class="csd-m3"/><text x="706" y="119" class="csd-t">6</text>
+        </g>
+        <path d="M390 152 H732" class="csd-axis" marker-end="url(#csd-arrow)"/>
+        <text x="390" y="172" class="csd-sub">probability that the target accepts the token falls →</text>
+        <g class="csd-key">
+          <rect x="390" y="200" width="14" height="14" rx="3" class="csd-m1"/><text x="410" y="212" class="csd-sub">Draft model 1</text>
+          <rect x="510" y="200" width="14" height="14" rx="3" class="csd-m2"/><text x="530" y="212" class="csd-sub">Draft model 2</text>
+          <rect x="630" y="200" width="14" height="14" rx="3" class="csd-m3"/><text x="650" y="212" class="csd-sub">Statistical LM</text>
+        </g>
+        <text x="390" y="246" class="csd-sub">Spend the most drafting effort where it is most likely to pay off.</text>
+      </svg>
+    </div>
+    <figcaption>Schematic of the two cascades. The <b>vertical cascade</b> drafts for each draft model with a smaller one, bottoming out in a statistical language model, so no neural model drafts autoregressively. The <b>horizontal cascade</b> assigns early draft positions, which the target is most likely to accept, to larger drafters and later positions to smaller ones.</figcaption>
+  </figure>
+
+  <ul class="pub-hl__tldr">
+    <li>The cascade is proved to be more efficient than standard speculative decoding and reaches up to <b>81% additional speedup</b> in experiments.</li>
+    <li>As in standard speculative decoding, the target model verifies every drafted token, so the output distribution is the target model's own.</li>
+  </ul>
+</article>
+
+<h2 class="pub-section" id="all-publications">All Publications</h2>
+<p class="pub-intro"><sup>*</sup> Equal contribution. Also on <a href="{{ site.author.googlescholar }}" target="_blank" rel="noopener">Google Scholar</a>.</p>
+
+<ol class="pub-list" reversed>
+{% for p in site.data.publications %}
+  <li class="pub-list__item">
+    <a class="pub-list__title" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+    <span class="pub-list__authors">{{ p.authors | replace: "Xiaocong Yang", "<b>Xiaocong Yang</b>" }}</span>
+    <span class="pub-list__venue">{{ p.venue }}</span>
+  </li>
+{% endfor %}
+</ol>
+
+<script src="{{ base_path }}/assets/js/pub-dagformer-data.js" defer></script>
+<script src="{{ base_path }}/assets/js/pub-saeidf-data.js" defer></script>
+<script src="{{ base_path }}/assets/js/pub-highlights.js" defer></script>

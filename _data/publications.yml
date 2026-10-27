@@ -1,0 +1,68 @@
+# Full publication list shown on /publications/, newest first.
+# Mirrors the "Publication" section of files/Personal_resume_Yang_Xiaocong.pdf.
+# `authors` is plain text; "Xiaocong Yang" is bolded automatically.
+
+- title: "DAGFormer: Global Topology Prediction for Transformer Cross-Layer Connections"
+  authors: "Xiaocong Yang*, Yuren Hao*, ChengXiang Zhai"
+  venue: "In review, ARR"
+  url: "https://arxiv.org/abs/2610.19625"
+
+- title: "Sparse Autoencoders Are a Shared Coordinate System for Symbolic Matching"
+  authors: "Xiaocong Yang, Xuanyu Meng, Yuji Zhang, Jiawei Han, ChengXiang Zhai"
+  venue: "In review, ARR"
+  url: "https://arxiv.org/abs/2610.19636"
+
+- title: "Resisting Harmful Instructions through Training-Free Weight Editing"
+  authors: "Ali Ebrahimpour-Boroojeny*, Xiaocong Yang*, Samuel Schapiro, Zahra Borhani, Francisco R Ortega, Yujia Zheng, ChengXiang Zhai"
+  venue: "In review, ARR"
+  url: "https://arxiv.org/abs/2610.21189"
+
+- title: "Skip the Compressor: Coding Agents Fix More Issues When They Pick Whole Files"
+  authors: "Xiaocong Yang*, Rishit Chatterjee*, Himanshu Udupi, Vikram Ramavarapu, ChengXiang Zhai"
+  venue: "In review, ARR"
+  url: "https://arxiv.org/abs/2610.21073"
+
+- title: "Generative Interpretability via Scalable Neuro-Symbolic Models"
+  authors: "Xiaocong Yang"
+  venue: "ACM AI Leadership Summit 2026"
+  url: "https://arxiv.org/abs/2609.13529"
+
+- title: "Globally Optimal Training of Spiking Neural Networks via Parameter Reconstruction"
+  authors: "Himanshu Udupi, Xiaocong Yang, ChengXiang Zhai"
+  venue: "In submission, AISTATS 2027"
+  url: "https://arxiv.org/abs/2605.08022"
+
+- title: "LLM2IR: Simple Unsupervised Contrastive Learning Makes Long-Context LLM Great Retriever"
+  authors: "Xiaocong Yang"
+  venue: "M.S. Thesis, UIUC"
+  url: "https://hdl.handle.net/2142/129301"
+
+- title: "Learning by Analogy: Enhancing Few-Shot Prompting for Math Word Problem Solving with Computational Graph-Based Retrieval"
+  authors: "Xiaocong Yang, Jiacheng Lin, Ziqi Wang, Chengxiang Zhai"
+  venue: "Preprint"
+  url: "https://arxiv.org/abs/2411.16454"
+
+- title: "Cascade Speculative Drafting for Even Faster LLM Inference"
+  authors: "Ziyi Chen, Xiaocong Yang, Jiacheng Lin, Chenkai Sun, Kevin Chen-Chuan Chang, Jie Huang"
+  venue: "NeurIPS 2024"
+  url: "https://arxiv.org/abs/2312.11462"
+
+- title: "Parameter-efficient Tuning with Special Token Adaptation"
+  authors: "Xiaocong Yang, James Huang, Wenxuan Zhou, Muhao Chen"
+  venue: "EACL 2023"
+  url: "https://arxiv.org/abs/2210.04382"
+
+- title: "NLP from Scratch Without Large-Scale Pretraining: A Simple and Efficient Framework"
+  authors: "Xingcheng Yao, Yanan Zheng, Xiaocong Yang, Zhilin Yang"
+  venue: "ICML 2022"
+  url: "https://proceedings.mlr.press/v162/yao22c.html"
+
+- title: "Towards Natural Language Interfaces for Data Visualization: A Survey"
+  authors: "Leixian Shen, Enya Shen, Yuyu Luo, Xiaocong Yang, Xuming Hu, Xiongshuai Zhang, Zhiwei Tai, Jianmin Wang"
+  venue: "TVCG 2022"
+  url: "https://ieeexplore.ieee.org/abstract/document/9699035"
+
+- title: "EVA: An Open-Domain Chinese Dialogue System with Large-Scale Generative Pre-Training"
+  authors: "Hao Zhou, Pei Ke, Zheng Zhang, Yuxian Gu, Yinhe Zheng, Chujie Zheng, Yida Wang, Chen Henry Wu, Hao Sun, Xiaocong Yang, Bosi Wen, Xiaoyan Zhu, Minlie Huang, Jie Tang"
+  venue: "Preprint"
+  url: "https://arxiv.org/abs/2108.01547"
